@@ -90,12 +90,42 @@ extern "C" JL_DLLEXPORT LLVMBool LLVMExtraInitializeNativeDisassembler()
     return InitializeNativeTargetDisassembler();
 }
 
-// Exporting the Barrier LLVM pass
+// Various missing passes (being upstreamed)
 
 extern "C" JL_DLLEXPORT void LLVMExtraAddBarrierNoopPass(LLVMPassManagerRef PM)
 {
     unwrap(PM)->add(createBarrierNoopPass());
 }
+
+extern "C" JL_DLLEXPORT void LLVMExtraAddDivRemPairsPass(LLVMPassManagerRef PM) {
+    unwrap(PM)->add(createDivRemPairsPass());
+}
+
+extern "C" JL_DLLEXPORT void LLVMExtraAddLoopDistributePass(LLVMPassManagerRef PM) {
+    unwrap(PM)->add(createLoopDistributePass());
+}
+
+extern "C" JL_DLLEXPORT void LLVMExtraAddLoopFusePass(LLVMPassManagerRef PM) {
+  unwrap(PM)->add(createLoopFusePass());
+}
+
+extern "C" JL_DLLEXPORT void LLVMExtraLoopLoadEliminationPass(LLVMPassManagerRef PM) {
+  unwrap(PM)->add(createLoopLoadEliminationPass());
+}
+
+extern "C" JL_DLLEXPORT void LLVMExtraAddLoadStoreVectorizerPass(LLVMPassManagerRef PM) {
+  unwrap(PM)->add(createLoadStoreVectorizerPass());
+}
+
+extern "C" JL_DLLEXPORT void LLVMExtraAddVectorCombinePass(LLVMPassManagerRef PM) {
+  unwrap(PM)->add(createVectorCombinePass());
+}
+
+// Can be removed in LLVM 12
+extern "C" JL_DLLEXPORT void LLVMExtraAddInstructionSimplifyPass(LLVMPassManagerRef PM) {
+  unwrap(PM)->add(createInstSimplifyLegacyPass());
+}
+
 
 // Infrastructure for writing LLVM passes in Julia
 
